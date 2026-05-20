@@ -16,9 +16,9 @@ const StatCard = ({ count, label, colorClass, emoji }) => (
   </div>
 )
 
-const ResultsSection = ({ results }) => {
-  const [filter, setFilter]   = useState('all')
-  const [search, setSearch]   = useState('')
+const ResultsSection = ({ results, position }) => {
+  const [filter, setFilter] = useState('all')
+  const [search, setSearch] = useState('')
 
   const candidates = filterCandidates(results, filter, search)
 
@@ -34,6 +34,15 @@ const ResultsSection = ({ results }) => {
             Analysis Results &nbsp;
             <span>{total} Candidate{total !== 1 ? 's' : ''}</span>
           </h2>
+          {position && (
+            <p className="results-position-tag">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="2" y="7" width="20" height="14" rx="2" />
+                <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+              </svg>
+              {position}
+            </p>
+          )}
           {results.total_failed > 0 && (
             <p style={{ fontSize: '0.82rem', color: 'var(--color-warning)', marginTop: 4 }}>
               ⚠ {results.total_failed} resume{results.total_failed !== 1 ? 's' : ''} could not be processed
@@ -43,7 +52,7 @@ const ResultsSection = ({ results }) => {
         <div className="export-buttons">
           <button
             className="btn-export btn-export-pdf"
-            onClick={() => exportToPDF(candidates)}
+            onClick={() => exportToPDF(candidates, position)}
             disabled={candidates.length === 0}
             title="Export as PDF"
           >
@@ -58,7 +67,7 @@ const ResultsSection = ({ results }) => {
           </button>
           <button
             className="btn-export btn-export-excel"
-            onClick={() => exportToExcel(candidates)}
+            onClick={() => exportToExcel(candidates, position)}
             disabled={candidates.length === 0}
             title="Export as Excel"
           >
@@ -96,7 +105,7 @@ const ResultsSection = ({ results }) => {
 
       {/* Desktop Table */}
       <div className="desktop-only">
-        <CandidateTable candidates={candidates} />
+        <CandidateTable candidates={candidates} position={position} />
       </div>
 
       {/* Mobile / Tablet Cards */}
@@ -111,7 +120,7 @@ const ResultsSection = ({ results }) => {
         ) : (
           <div className="cards-grid">
             {candidates.map((c, i) => (
-              <CandidateCard key={`${c.file_name}-${i}`} candidate={c} />
+              <CandidateCard key={`${c.file_name}-${i}`} candidate={c} position={position} />
             ))}
           </div>
         )}

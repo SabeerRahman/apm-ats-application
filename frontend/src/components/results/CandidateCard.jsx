@@ -6,7 +6,7 @@ const initials = (name) =>
     ? '?'
     : name.split(' ').map((n) => n[0]).slice(0, 2).join('').toUpperCase()
 
-const CandidateCard = ({ candidate }) => {
+const CandidateCard = ({ candidate, position }) => {
   const { candidate_name, email, phone, score, file_name, original_file_name } = candidate
 
   return (
@@ -17,6 +17,16 @@ const CandidateCard = ({ candidate }) => {
       </div>
 
       <p className="cc-name">{candidate_name}</p>
+
+      {position && (
+        <div className="cc-position-tag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" />
+          </svg>
+          <span>{position}</span>
+        </div>
+      )}
 
       <div className="cc-meta">
         <div className="cc-field">

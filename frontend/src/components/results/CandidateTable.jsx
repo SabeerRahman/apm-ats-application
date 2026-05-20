@@ -1,7 +1,7 @@
 import ScoreBadge from './ScoreBadge'
 import { downloadResume } from '../../services/atsService'
 
-const CandidateTable = ({ candidates }) => {
+const CandidateTable = ({ candidates, position }) => {
   if (!candidates.length) {
     return (
       <div className="empty-state">
@@ -22,6 +22,7 @@ const CandidateTable = ({ candidates }) => {
         <thead>
           <tr>
             <th>#</th>
+            <th>Position</th>
             <th>Candidate Name</th>
             <th>Email Address</th>
             <th>Contact Number</th>
@@ -33,6 +34,7 @@ const CandidateTable = ({ candidates }) => {
           {candidates.map((c, i) => (
             <tr key={`${c.file_name}-${i}`}>
               <td style={{ color: 'var(--text-muted)', width: 40 }}>{i + 1}</td>
+              <td className="td-position">{position || '—'}</td>
               <td className="td-name">{c.candidate_name}</td>
               <td className="td-email">{c.email}</td>
               <td className="td-phone">{c.phone}</td>
