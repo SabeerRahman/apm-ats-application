@@ -43,6 +43,12 @@ const Home = () => {
   }, [])
 
   useEffect(() => {
+    if (results) {
+      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [results])
+
+  useEffect(() => {
     const handler = (e) => {
       if (historyOpen && drawerRef.current && !drawerRef.current.contains(e.target)) {
         setHistoryOpen(false)
@@ -77,7 +83,6 @@ const Home = () => {
       setResultsPosition(position)
       await saveAnalysis(position, data).catch(() => {})
       getAllAnalyses().then(setHistory).catch(() => {})
-      setTimeout(() => resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150)
     } catch (err) {
       setError(err.message || 'Something went wrong. Please try again.')
     } finally {
